@@ -83,41 +83,23 @@ namespace WikiTexifier {
                 foreach (var th in node.SafeSelectNodes("//tr/th")) {
                     var text = new StringBuilder();
                     var tr = th.ParentNode;
-                    bool colspan = th.Attributes.Contains("colspan");
 
                     if (tr == null) continue;
-                    if (tr.PreviousSibling != null)
-                        text.Append("  - ").Append(th.InnerText);
-                    else
-                        colspan = false;
+                    text.Append("  - ").Append(th.InnerText);
                     th.Remove();
                     var data = tr.InnerText;
                     if (!string.IsNullOrWhiteSpace(data))
                         text.Append(": ")
                             .Append(data.Trim().Replace("\r", "")
                                         .Replace("\n", ", "));
-                    else if (!colspan)
-                        // I am missing something here
-                        // This is not a heading, and doesn't have anything
-                        // I will skip
-                        continue;
                     tr.InnerHtml = text.ToString();
                     tr.Name = "p";
 
                     tr.Attributes.RemoveAll();
-                    if (colspan)
-                        tr.SetAttributeValue("colspan", "2");
                 }
 
                 foreach (var tr in node.SafeSelectNodes("//tr"))
                     tr.Remove();
-
-                if (node.SelectNodes("//p[@colspan='2']") != null)
-                    // Damn, this is those kind that needs indenting
-                    foreach (var line in node.SafeSelectNodes("//p")) {
-                        if (!line.Attributes.Contains("colspan"))
-                            line.InnerHtml = "    " + line.InnerText;
-                    }
 
                 node.AppendChild(HtmlNode.CreateNode("<p></p>"));
 

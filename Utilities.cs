@@ -178,7 +178,17 @@ namespace WikiTexifier {
                      .Replace("\u0110", "DJ")  // Đ
                      .Replace("\u0111", "dj")  // đ
                      .Replace("\u00de", "TH")  // Þ
-                     .Replace("\u00fe", "th"); // þ
+                     .Replace("\u00fe", "th")  // þ
+                     .Replace("\u200b", "")    // ​ zero width space
+                     .Replace("\u2015", "--")  // ― horizontal bar
+                     .Replace("\u2016", "||")  // ‖ double vertical line
+                     .Replace("\u2034", "'''") // ‴ triple prime
+                     .Replace("\u2037", "'''") // ‷ reversed triple prime
+                     .Replace("\u2060", "")    // ⁠ word joiner
+                     .Replace("\u2264", "<=")  // ≤ less-than or equal to
+                     .Replace("\u2265", ">=")  // ≥ greater-than or equal to
+                     .Replace("\u2266", "<=")  // ≦ less-than over equal to
+                     .Replace("\u2267", ">="); // ≧ greater-than over equal to
             var build = new StringBuilder(str.Length);
             foreach (char c in str)
                 build.Append(unicode.ContainsKey(c) ? unicode[c] : c);

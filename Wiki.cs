@@ -105,13 +105,6 @@ namespace WikiTexifier {
 
                 node.Name = "p";
                 node.Attributes.RemoveAll();
-
-                /*infobox += node.InnerText.Trim();
-                
-                node.Name = "span";
-                node.Attributes.RemoveAll();
-                node.InnerHtml = "<p>" + newLine.Replace(infobox, "</p><p>") + "</p>";
-                System.Diagnostics.Debug.WriteLine(node.InnerText);*/
             }
         }
 

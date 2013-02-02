@@ -90,8 +90,10 @@ namespace WikiTexifier {
                     var data = tr.InnerText;
                     if (!string.IsNullOrWhiteSpace(data))
                         text.Append(": ")
-                            .Append(data.Trim().Replace("\r", "")
-                                        .Replace("\n", ", "));
+                            .Append(string.Join(", ",
+                                data.Trim().Split(
+                                    new char[]{'\r', '\n'},
+                                    StringSplitOptions.RemoveEmptyEntries)));
                     tr.InnerHtml = text.ToString();
                     tr.Name = "p";
 

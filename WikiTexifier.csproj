@@ -53,6 +53,7 @@
     <Compile Include="MainWin.Designer.cs">
       <DependentUpon>MainWin.cs</DependentUpon>
     </Compile>
+    <Compile Include="unicode.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

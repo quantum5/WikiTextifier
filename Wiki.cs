@@ -26,7 +26,6 @@ namespace WikiTexifier {
         static Regex endOfList = new Regex(
             @"(^\s*(?:-|\d+\.).*?$[\r\n]+)(?!\s*(?:-|\d+\.))",
             RegexOptions.Multiline);
-        static Regex tableRow = new Regex(@"(?<=\|\r\n)\r\n(?=\+)|(?<=\+\r\n)\r\n(?=\|)");
         static HashSet<string> blackSections = new HashSet<string> {
                 "REFERENCES", "EXTERNAL LINKS", "FURTHER READING",
                 "SEE ALSO", "POPULAR CULTURE", "IN CULTURE",
@@ -115,68 +114,30 @@ namespace WikiTexifier {
         private void handleWikiTable() {
             foreach (var table in SelectNodes("//table[@class='wikitable']")) {
                 StringBuilder TextTable = new StringBuilder();
-                //Debug.WriteLine(table.InnerText);
                 
                 var caption = table.SelectSingleNode("caption");
-                if (caption != null) {
+                if (caption != null)
                     TextTable.AppendLine(string.Format("------{0}------", caption.InnerText));
-                    Debug.WriteLine(caption.InnerText);
-                }
 
-                List<List<string>> data = new List<List<string>>();
                 List<int> columnLen = new List<int>();
                 foreach (var tr in table.SafeSelectNodes("tr")) {
-                    int cid = 0;
                     List<string> row = new List<string>();
-                    //Debug.WriteLine("row");
                     foreach (var column in tr.SafeSelectNodes("td | th")) {
                         string text = column.InnerText;
                         if (column.Name == "th")
                             text = string.Format("*{0}*", text);
-
                         row.Add(text);
-                        //Debug.WriteLine(text);
-
-                        if (cid >= columnLen.Count)
-                            columnLen.Add(text.Length);
-                        else if (text.Length > columnLen[cid])
-                            columnLen[cid] = text.Length;
-                        ++cid;
                     }
-                    data.Add(row);
+                    TextTable.Append(string.Join("\t", row));
+                    TextTable.Append("\b");
                 }
-                Debug.WriteLine(string.Format("Rows: {0}", data.Count));
-                Debug.WriteLine(string.Format("Columns: {0}", columnLen.Count));
-
-                WriteRowSeparator(TextTable, columnLen);
-                foreach (var row in data) {
-                    TextTable.Append("|");
-                    int cid = 0;
-                    foreach (var column in row) {
-                        TextTable.Append("\xa0");
-                        TextTable.Append(column);
-                        TextTable.Append(new string('\xa0', columnLen[cid] - column.Length));
-                        TextTable.Append("\xa0|");
-                        ++cid;
-                    }
-                    TextTable.Append("\n");
-                    WriteRowSeparator(TextTable, columnLen);
-                }
+                TextTable.Append("\n");
 
                 table.Name = "p";
                 table.Attributes.RemoveAll();
                 table.RemoveAllChildren();
-                table.InnerHtml = TextTable.ToString();//.Replace("\n", "<br/>");
+                table.InnerHtml = TextTable.ToString();
             }
-        }
-
-        private void WriteRowSeparator(StringBuilder text, List<int> columnLen) {
-            text.Append("+");
-            foreach (var column in columnLen) {
-                text.Append(new string('-', column + 2));
-                text.Append("+");
-            }
-            text.Append("\n");
         }
 
         public void clean() {
@@ -262,7 +223,7 @@ namespace WikiTexifier {
                 else
                     //section = newLine.Replace(section, ":\r\n", 1);
                     section = section.Replace('\a', ':');
-                section = tableRow.Replace(section, string.Empty);
+                section = section.Replace("\b", "\r\n");
 
                 if (section.Substring(0, Math.Min(blackSize, section.Length))
                         .ToUpper().StartsWith(blackSections))

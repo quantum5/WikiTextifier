@@ -79,7 +79,7 @@ namespace WikiTexifier {
             this.PageText.Name = "PageText";
             this.PageText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.PageText.Size = new System.Drawing.Size(600, 308);
-            this.PageText.TabIndex = 3;
+            this.PageText.TabIndex = 9;
             // 
             // SiteLabel
             // 
@@ -87,7 +87,7 @@ namespace WikiTexifier {
             this.SiteLabel.Location = new System.Drawing.Point(12, 36);
             this.SiteLabel.Name = "SiteLabel";
             this.SiteLabel.Size = new System.Drawing.Size(33, 15);
-            this.SiteLabel.TabIndex = 4;
+            this.SiteLabel.TabIndex = 3;
             this.SiteLabel.Text = "Wiki:";
             // 
             // Site
@@ -102,7 +102,7 @@ namespace WikiTexifier {
             this.Site.Location = new System.Drawing.Point(107, 33);
             this.Site.Name = "Site";
             this.Site.Size = new System.Drawing.Size(424, 23);
-            this.Site.TabIndex = 5;
+            this.Site.TabIndex = 4;
             this.Site.Text = "http://en.wikipedia.org/w/index.php";
             // 
             // Progress
@@ -113,14 +113,15 @@ namespace WikiTexifier {
             this.Progress.Name = "Progress";
             this.Progress.Size = new System.Drawing.Size(600, 23);
             this.Progress.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.Progress.TabIndex = 6;
+            this.Progress.TabIndex = 10;
             // 
             // ASCIIfy
             // 
+            this.ASCIIfy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ASCIIfy.Location = new System.Drawing.Point(537, 32);
             this.ASCIIfy.Name = "ASCIIfy";
             this.ASCIIfy.Size = new System.Drawing.Size(75, 23);
-            this.ASCIIfy.TabIndex = 7;
+            this.ASCIIfy.TabIndex = 5;
             this.ASCIIfy.Text = "&ASCIIfy";
             this.ASCIIfy.UseVisualStyleBackColor = true;
             this.ASCIIfy.Click += new System.EventHandler(this.ASCIIfy_Click);
@@ -131,23 +132,26 @@ namespace WikiTexifier {
             this.FontLabel.Location = new System.Drawing.Point(12, 65);
             this.FontLabel.Name = "FontLabel";
             this.FontLabel.Size = new System.Drawing.Size(34, 15);
-            this.FontLabel.TabIndex = 8;
+            this.FontLabel.TabIndex = 6;
             this.FontLabel.Text = "Font:";
             // 
             // FontView
             // 
+            this.FontView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.FontView.Location = new System.Drawing.Point(107, 62);
             this.FontView.Name = "FontView";
             this.FontView.ReadOnly = true;
             this.FontView.Size = new System.Drawing.Size(424, 21);
-            this.FontView.TabIndex = 9;
+            this.FontView.TabIndex = 7;
             // 
             // SelectFont
             // 
+            this.SelectFont.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectFont.Location = new System.Drawing.Point(537, 61);
             this.SelectFont.Name = "SelectFont";
             this.SelectFont.Size = new System.Drawing.Size(75, 23);
-            this.SelectFont.TabIndex = 10;
+            this.SelectFont.TabIndex = 8;
             this.SelectFont.Text = "Change...";
             this.SelectFont.UseVisualStyleBackColor = true;
             this.SelectFont.Click += new System.EventHandler(this.SelectFont_Click);

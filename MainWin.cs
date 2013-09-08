@@ -68,7 +68,7 @@ namespace WikiTexifier {
             return font;
         }
 
-        private void FormLoad(object sender, EventArgs e) {
+        private Font GetFont() {
             Font monospace;
             RegistryKey font = GetFontKey();
             try {
@@ -77,8 +77,14 @@ namespace WikiTexifier {
             } catch (ArgumentException) {
                 monospace = new Font(FontFamily.GenericMonospace, (int) font.GetValue("size"));
             }
+            return monospace;
+        }
+
+        private void FormLoad(object sender, EventArgs e) {
+            Font monospace = GetFont();
             PageText.Font = monospace;
             FontSelect.Font = monospace;
+            UpdatePreview(monospace);
 
             this.Icon = Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().Location);
         }
@@ -102,10 +108,17 @@ namespace WikiTexifier {
 
         private void SelectFont_Click(object sender, EventArgs e) {
             FontSelect.ShowDialog();
-            PageText.Font = FontSelect.Font;
             RegistryKey font = GetFontKey();
             font.SetValue("name", FontSelect.Font.FontFamily.Name, RegistryValueKind.String);
             font.SetValue("size", FontSelect.Font.Size, RegistryValueKind.DWord);
+            PageText.Font = GetFont();
+            UpdatePreview(PageText.Font);
+        }
+
+        private void UpdatePreview(Font font) {
+            FontView.Font = font;
+            FontView.Text = string.Format("Font: {0}, Size: {1} pt", font.Name, font.SizeInPoints);
+            FontView.Size = PageTitle.Size;
         }
     }
 }

@@ -32,6 +32,10 @@ namespace WikiTexifier {
             this.Site = new System.Windows.Forms.ComboBox();
             this.Progress = new System.Windows.Forms.ProgressBar();
             this.ASCIIfy = new System.Windows.Forms.Button();
+            this.FontLabel = new System.Windows.Forms.Label();
+            this.FontSelect = new System.Windows.Forms.FontDialog();
+            this.FontView = new System.Windows.Forms.TextBox();
+            this.SelectFont = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // PageTitleLabel
@@ -70,11 +74,11 @@ namespace WikiTexifier {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PageText.BackColor = System.Drawing.Color.Black;
             this.PageText.ForeColor = System.Drawing.Color.Lime;
-            this.PageText.Location = new System.Drawing.Point(12, 61);
+            this.PageText.Location = new System.Drawing.Point(12, 92);
             this.PageText.Multiline = true;
             this.PageText.Name = "PageText";
             this.PageText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.PageText.Size = new System.Drawing.Size(600, 339);
+            this.PageText.Size = new System.Drawing.Size(600, 308);
             this.PageText.TabIndex = 3;
             // 
             // SiteLabel
@@ -121,12 +125,42 @@ namespace WikiTexifier {
             this.ASCIIfy.UseVisualStyleBackColor = true;
             this.ASCIIfy.Click += new System.EventHandler(this.ASCIIfy_Click);
             // 
+            // FontLabel
+            // 
+            this.FontLabel.AutoSize = true;
+            this.FontLabel.Location = new System.Drawing.Point(12, 65);
+            this.FontLabel.Name = "FontLabel";
+            this.FontLabel.Size = new System.Drawing.Size(34, 15);
+            this.FontLabel.TabIndex = 8;
+            this.FontLabel.Text = "Font:";
+            // 
+            // FontView
+            // 
+            this.FontView.Location = new System.Drawing.Point(107, 62);
+            this.FontView.Name = "FontView";
+            this.FontView.ReadOnly = true;
+            this.FontView.Size = new System.Drawing.Size(424, 21);
+            this.FontView.TabIndex = 9;
+            // 
+            // SelectFont
+            // 
+            this.SelectFont.Location = new System.Drawing.Point(537, 61);
+            this.SelectFont.Name = "SelectFont";
+            this.SelectFont.Size = new System.Drawing.Size(75, 23);
+            this.SelectFont.TabIndex = 10;
+            this.SelectFont.Text = "Change...";
+            this.SelectFont.UseVisualStyleBackColor = true;
+            this.SelectFont.Click += new System.EventHandler(this.SelectFont_Click);
+            // 
             // WikiTextifier
             // 
             this.AcceptButton = this.FetchPageButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 442);
+            this.Controls.Add(this.SelectFont);
+            this.Controls.Add(this.FontView);
+            this.Controls.Add(this.FontLabel);
             this.Controls.Add(this.ASCIIfy);
             this.Controls.Add(this.Progress);
             this.Controls.Add(this.Site);
@@ -154,6 +188,10 @@ namespace WikiTexifier {
         private System.Windows.Forms.ComboBox Site;
         private System.Windows.Forms.ProgressBar Progress;
         private System.Windows.Forms.Button ASCIIfy;
+        private System.Windows.Forms.Label FontLabel;
+        private System.Windows.Forms.FontDialog FontSelect;
+        private System.Windows.Forms.TextBox FontView;
+        private System.Windows.Forms.Button SelectFont;
     }
 }
 

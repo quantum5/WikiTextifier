@@ -4,6 +4,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace WikiTexifier {
     public partial class WikiTextifier : Form {
@@ -56,16 +57,28 @@ namespace WikiTexifier {
             new Thread(FormatText).Start(e.Result);
         }
 
+        RegistryKey config = Registry.CurrentUser.CreateSubKey("Software\\WikiTextifier");
+
+        private RegistryKey GetFontKey() {
+            RegistryKey font = config.CreateSubKey("Font");
+            if (font.GetValue("name") as string == null)
+                font.SetValue("name", "Consolas", RegistryValueKind.String);
+            if (font.GetValue("size") as int? == null)
+                font.SetValue("size", 11, RegistryValueKind.DWord);
+            return font;
+        }
+
         private void FormLoad(object sender, EventArgs e) {
             Font monospace;
+            RegistryKey font = GetFontKey();
             try {
-                monospace = new Font(new FontFamily("Consolas"), 11);
+                monospace = new Font(new FontFamily((string) font.GetValue("name")),
+                            (int) font.GetValue("size"));
             } catch (ArgumentException) {
-                monospace = new Font(FontFamily.GenericMonospace, 11);
+                monospace = new Font(FontFamily.GenericMonospace, (int) font.GetValue("size"));
             }
             PageText.Font = monospace;
-
-            this.Font = new Font(FontFamily.GenericSansSerif, 9);
+            FontSelect.Font = monospace;
 
             this.Icon = Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().Location);
         }
@@ -85,6 +98,14 @@ namespace WikiTexifier {
                     Progress.Style = ProgressBarStyle.Continuous;
                 }));
             }).Start();
+        }
+
+        private void SelectFont_Click(object sender, EventArgs e) {
+            FontSelect.ShowDialog();
+            PageText.Font = FontSelect.Font;
+            RegistryKey font = GetFontKey();
+            font.SetValue("name", FontSelect.Font.FontFamily.Name, RegistryValueKind.String);
+            font.SetValue("size", FontSelect.Font.Size, RegistryValueKind.DWord);
         }
     }
 }
